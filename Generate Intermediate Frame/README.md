@@ -40,6 +40,8 @@ def readOriginImg(path_cat, path_tiger):
   width, height = max(I_cat.shape[0], I_tiger.shape[0]), max(I_cat.shape[1], I_tiger.shape[1])
   ```
 
+#### 直接使用三维数组
+
 - 构建 (N+2) * width * height 三纬结果矩阵
 
   ```python
@@ -58,6 +60,8 @@ def readOriginImg(path_cat, path_tiger):
       for y in range(height):
         result_frames[k][x][y] = (1-t)*I_cat[x][y] + t*I_tiger[x][y]    # 线性插值公式
   ```
+
+#### 使用numpy数组
 
 ### 将矩阵写出成图片
 
@@ -99,6 +103,10 @@ if multi_thread:
 
 ### 将一组帧图片保存为Gif
 
+- 对结果目录中的所有文件进行过滤(只读入生成的中间帧)
+- 对读入的中间帧按照先后进行排序
+- 调用`image.mimsave()`方法将一组帧图片保存为Gif
+
 ```python
 '''
 Resources/Result/目录下有多张图片
@@ -117,3 +125,20 @@ def myImage2Gif(dirname):
     imageio.mimsave(dirname+'result.gif', imgs, 'GIF', duration=0.35)
 ```
 
+
+
+------
+
+## 实验分析
+
+### 使用普通三维数组和numpy数组的效率差异
+
+### 使用多线程的效率提升
+
+------
+
+## 遇到的问题
+
+### python构建三维数组
+
+### 将一组帧图片保存为Gif

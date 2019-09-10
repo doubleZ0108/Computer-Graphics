@@ -20,6 +20,8 @@ def generateFrame(I_cat, I_tiger, N):
     # 取两图片最大的长宽作为目标图片的长宽
     width, height = max(I_cat.shape[0], I_tiger.shape[0]), max(I_cat.shape[1], I_tiger.shape[1])
 
+    '''
+    # 直接使用三维数组
     # 构建 (N+2) * width * height 三纬结果矩阵
     result_frames = [[[0 for _ in range(width)] for _ in range(height)] for _ in range(N + 2)]
 
@@ -31,6 +33,16 @@ def generateFrame(I_cat, I_tiger, N):
         for x in range(width):
             for y in range(height):
                 result_frames[k][x][y] = (1 - t) * I_cat[x][y] + t * I_tiger[x][y]  # 线性插值公式
+    '''
+
+    '''
+    # 使用numpy数组
+    '''
+    # 图片的shape是[width, height, 3] -> 构建 (N + 2, width, height, 3)
+    result_frames = np.zeros((N + 2, width, height, 3))
+    for k in range(0, N + 2):
+        t = k / (1 + N)
+        result_frames[k] = (1 - t) * I_cat + t * I_tiger
 
     return result_frames
 
@@ -56,24 +68,25 @@ def writeResultFrames(result_frames, dirname, multi_thread=False):
             cv2.imwrite(dirname + filename, np.float32(frame))
 
 
+
 def main():
     path_origin = '../Resources/Origin/'
     path_result = '../Resources/Result/'
     path_cat = path_origin + 'cat.png'
     path_tiger = path_origin + 'tiger.png'
 
-    I_cat, I_tiger = readOriginImg(path_cat, path_tiger)
-
     N = int(input('Please input the intermediate frames you want to generate: '))
 
+    # 读取原始图片
+    I_cat, I_tiger = readOriginImg(path_cat, path_tiger)
+    # 生成指定数量的中间帧
     result_frames = generateFrame(I_cat, I_tiger, N)
-
+    # 创建结果文件夹储存结果图片
     makeResultDir(path_result)
-
+    # 将结果矩阵写出成图片
     writeResultFrames(result_frames, path_result, multi_thread=True)
-
+    # 将帧图片保存为Gif
     myImage2Gif(path_result)
-
 
 if __name__=='__main__':
     main()
