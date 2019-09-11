@@ -19,5 +19,6 @@ def myImage2Gif(dirname):
 
 
 if __name__ == '__main__':
+
     dirname = '../Resources/Result/'
     myImage2Gif(dirname)
