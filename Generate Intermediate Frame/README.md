@@ -435,13 +435,19 @@ print(end - start)
 ## 项目结构
 
 ```
+.
 ├── README.md
 ├── Resources
 │   ├── Origin
 │   │   ├── cat.png
+│   │   ├── her1.jpeg
+│   │   ├── her2.jpeg
 │   │   └── tiger.png
 │   └── Result
-│       └── result.gif
+│       ├── catResult.gif
+│       └── herResult.gif
+├── doc
+│   └── 生成中间帧实验文档.pdf
 └── src
     ├── FrameHandler.py
     ├── GenerateIntermediateFrames.py
