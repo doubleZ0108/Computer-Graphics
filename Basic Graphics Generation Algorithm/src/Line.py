@@ -5,7 +5,7 @@ from Grid import Grid
 def drawPixel(x , y, color, grid):
     grid[[x,y]] = color
 
-
+'''基础算法'''
 def drawLine_Basic(grid, start, end):
     k = (end.y-start.y)/(end.x-start.x)
     b = start.y - k * start.x
@@ -14,6 +14,7 @@ def drawLine_Basic(grid, start, end):
         yi = k * xi + b
         drawPixel(xi, int(yi+0.5), 1, grid)     # y坐标要进行近似
 
+'''数值微分算法（DDA）'''
 def drawLine_DDA(grid, start, end):
     k = (end.y - start.y) / (end.x - start.x)
     xi, yi = start.x, start.y
@@ -27,15 +28,49 @@ def drawLine_DDA(grid, start, end):
             drawPixel(int(xi+0.5), yi, 1, grid)
             xi += 1/k
 
+'''中点画线法'''
+def drwaLine_MidPoint(grid, start, end):
+    a, b, c = start.y-end.y, end.x-start.x, start.x*end.y-end.x*start.y
+
+    xp, yp = start.x, start.y
+    for xp in range(start.x, end.x):
+        drawPixel(xp, yp, 1, grid)
+
+        delta = a*(xp+1) + b*(yp+0.5) + c   # 考核点(xp+1, yp+0.5)
+        if delta<0:
+            yp += 1
+        else:
+            # yp += 0
+            pass
+
+'''中点画线法 with DDA'''
+def drawLine_MidPoint_with_DDA(grid, start, end):
+    a, b = start.y-end.y, end.x-start.x
+
+    d = a + (b<<2)      # 用2d代替d， 摆脱小数
+    d1, d2 = a<<2, (a+b)<<2
+
+    xp, yp = start.x, start.y
+    for xp in range(start.x, end.x):
+        drawPixel(xp, yp, 1, grid)
+
+        if d<0:
+            yp += 1
+            d += d2
+        else:
+            d += d1
+
 
 def main():
     grid = Grid([100, 100])
 
-    start, end = Point(0, 1), Point(50, 70)
-    # start, end = Point(0, 1), Point(70, 50)
+    # start, end = Point(0, 1), Point(50, 70)
+    start, end = Point(0, 1), Point(70, 50)
 
     # drawLine_Basic(grid, start, end)
-    drawLine_DDA(grid, start, end)
+    # drawLine_DDA(grid, start, end)
+    # drwaLine_MidPoint(grid, start, end)
+    drawLine_MidPoint_with_DDA(grid, start, end)
 
     grid.show()
 
