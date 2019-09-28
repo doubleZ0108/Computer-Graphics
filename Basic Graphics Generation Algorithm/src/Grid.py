@@ -24,8 +24,7 @@ class Grid(object):
         axis.set_xlim((0, self._width))
 
     def __setitem__(self, key, value):
-        '''这里不太知道二维数组更pro的写法'''
-        print(key[0],key[1])
+        '''这里不太知道二维数组更优美的写法'''
         self._grid[key[0]][key[1]] = value
 
     def clear(self):

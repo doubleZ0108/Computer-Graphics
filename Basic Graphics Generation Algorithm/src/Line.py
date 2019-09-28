@@ -118,10 +118,9 @@ def drawLine_Bresenham(grid, start, end):
 '''Bresenham画线法(去点浮)'''
 def drawLine_Bresenham_nonreal(grid, start, end):
     dx, dy = (end.x - start.x), (end.y - start.y)
-    k = dy/dx
     x, y = start.x, start.y
 
-    if abs(k) <= 1:
+    if abs(dy) <= abs(dx):
 
         e = -dx
 

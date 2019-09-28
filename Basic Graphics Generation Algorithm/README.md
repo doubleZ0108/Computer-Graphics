@@ -56,6 +56,10 @@ def drawLine_DDA(grid, start, end):
       xi += 1/k
 ```
 
+<img src="ScreenShots/Line/DDA1.png" alt="DDA1" style="zoom:50%;" />
+
+<img src="ScreenShots/Line/DDA2.png" alt="DDA2" style="zoom:50%;" />
+
 #### 如果不对k进行分类讨论
 
 <img src="ScreenShots/Line/non-classify.png" alt="non-classify" style="zoom:72%;" />
@@ -85,7 +89,7 @@ def drawLine_DDA(grid, start, end):
     <img src="ScreenShots/Line/MidPoint_principle.jpeg" alt="MidPoint_principle" style="zoom:50%;" />
 
 ```python
-'''中点画线法'''
+'''中点画线法(k<=1)'''
 def drwaLine_MidPoint(grid, start, end):
   a, b, c = start.y-end.y, end.x-start.x, start.x*end.y-end.x*start.y
 
@@ -101,7 +105,9 @@ def drwaLine_MidPoint(grid, start, end):
       pass
 ```
 
-------
+<img src="ScreenShots/Line/MidPoint1.png" alt="MidPoint1" style="zoom:50%;" />
+
+<img src="ScreenShots/Line/MidPoint2.png" alt="MidPoint2" style="zoom:50%;" />
 
 #### 在中点画线法中添加增量的思想
 
@@ -129,5 +135,72 @@ def drawLine_MidPoint_with_DDA(grid, start, end):
       d += d1
 ```
 
+<img src="ScreenShots/Line/MidPoint_with_DDA1.png" alt="MidPoint_with_DDA1" style="zoom:50%;" />
+
+<img src="ScreenShots/Line/MidPoint_with_DDA2.png" alt="MidPoint_with_DDA2" style="zoom:50%;" />
+
 ------
 
+### Bresenham画线法
+
+- 由误差项符号决定下一个像素选正右方还是右上方
+- 判别式：$\varepsilon = y_{i+1} - y_{i,r} - 0.5$
+  - $\varepsilon > 0$, 取右上
+  - else，取正右
+- 引入增量思想：
+  - $\varepsilon > 0$，增量为 k-1
+  - else，增量为 k
+  - 初始值：-0.5
+
+```python
+'''Bresenham画线法(k<=1)'''
+def drawLine_Bresenham(grid, start, end):
+  k = (end.y - start.y) / (end.x - start.x)
+  x, y = start.x, start.y
+  e = -0.5
+
+  for x in range(start.x, end.x):
+    drawPixel(x, y, 1, grid)
+
+    if e > 0:
+      e += k - 1
+      y += 1
+    else:
+      e += k
+      # y += 0
+```
+
+<img src="ScreenShots/Line/Bresenham1.png" alt="Bresenham1" style="zoom:50%;" />
+
+<img src="ScreenShots/Line/Bresenham2.png" alt="Bresenham2" style="zoom:50%;" />
+
+#### 去点浮
+
+- 用$\varepsilon' = 2 * \varepsilon * dx$代替$\varepsilon$
+- 去掉k的计算
+- 增量：
+  - $\varepsilon > 0$，增量为 2(dy - dx)
+  - else，增量为 2dy
+  - 初始值：-dx
+
+```python
+'''Bresenham画线法(去点浮)(k<=1)'''
+def drawLine_Bresenham_nonreal(grid, start, end):
+    dx, dy = (end.x - start.x), (end.y - start.y)
+    x, y = start.x, start.y
+    e = -dx
+
+    for x in range(start.x, end.x):
+      drawPixel(x, y, 1, grid)
+
+      if e > 0:
+        e += (dy - dx) << 2
+        y += 1
+      else:
+        e += (dy) << 2
+        # y += 0
+```
+
+<img src="ScreenShots/Line/Bresenham_nonreal2.png" alt="Bresenham_nonreal2" style="zoom:50%;" />
+
+<img src="ScreenShots/Line/Bresenham_nonreal1.png" alt="Bresenham_nonreal1" style="zoom:50%;" />
