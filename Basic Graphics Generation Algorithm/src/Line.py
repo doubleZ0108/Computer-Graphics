@@ -1,9 +1,7 @@
 from Point import Point
 from Grid import Grid
+from DrawPixel import drawPixel
 
-
-def drawPixel(x , y, color, grid):
-    grid[[y,x]] = color     # 由于pyplot库中纵轴为x，横轴为y；这里人工颠倒一下
 
 '''基础算法'''
 def drawLine_Basic(grid, start, end):
@@ -13,6 +11,7 @@ def drawLine_Basic(grid, start, end):
     for xi in range(start.x, end.x):    # 栅格的性质
         yi = k * xi + b
         drawPixel(xi, int(yi+0.5), 1, grid)     # y坐标要进行近似
+
 
 '''数值微分算法（DDA）'''
 def drawLine_DDA(grid, start, end):
@@ -27,6 +26,7 @@ def drawLine_DDA(grid, start, end):
         for yi in range(start.y, end.y):
             drawPixel(int(xi+0.5), yi, 1, grid)
             xi += 1/k
+
 
 '''中点画线法'''
 def drwaLine_MidPoint(grid, start, end):
@@ -55,17 +55,18 @@ def drwaLine_MidPoint(grid, start, end):
                 # xp += 0
                 pass
 
+
 '''中点画线法 with DDA'''
 def drawLine_MidPoint_with_DDA(grid, start, end):
     a, b = start.y-end.y, end.x-start.x
 
-    d = a + (b<<2)      # 用2d代替d， 摆脱小数
+    d = a + (b << 1)      # 用2d代替d， 摆脱小数
 
 
     xp, yp = start.x, start.y
     if abs(end.y - start.y) <= abs(end.x - start.x):
 
-        d1, d2 = a << 2, (a + b) << 2
+        d1, d2 = a << 1, (a + b) << 1
 
         for xp in range(start.x, end.x):
             drawPixel(xp, yp, 1, grid)
@@ -77,16 +78,17 @@ def drawLine_MidPoint_with_DDA(grid, start, end):
                 d += d1
     else:
 
-        d1, d2 = b << 2, (a + b) << 2
+        d1, d2 = b << 1, (a + b) << 1
 
         for yp in range(start.y, end.y):
             drawPixel(xp, yp, 1, grid)
 
-            if d >   0:
+            if d > 0:
                 xp += 1
                 d += d2
             else:
                 d += d1
+
 
 '''Bresenham画线法'''
 def drawLine_Bresenham(grid, start, end):
@@ -109,11 +111,12 @@ def drawLine_Bresenham(grid, start, end):
             drawPixel(x, y, 1, grid)
 
             if e > 0:
-                e += 1/k -1
+                e += 1/k - 1
                 x += 1
             else:
                 e += 1/k
                 # x += 0
+
 
 '''Bresenham画线法(去点浮)'''
 def drawLine_Bresenham_nonreal(grid, start, end):
@@ -128,10 +131,10 @@ def drawLine_Bresenham_nonreal(grid, start, end):
             drawPixel(x, y, 1, grid)
 
             if e > 0:
-                e += (dy - dx) << 2
+                e += (dy - dx) << 1
                 y += 1
             else:
-                e += (dy) << 2
+                e += (dy) << 1
                 # y += 0
     else:
 
@@ -141,10 +144,10 @@ def drawLine_Bresenham_nonreal(grid, start, end):
             drawPixel(x, y, 1, grid)
 
             if e > 0:
-                e += (dx - dy) << 2
+                e += (dx - dy) << 1
                 x += 1
             else:
-                e += (dx) << 2
+                e += (dx) << 1
                 # x += 0
 
 
