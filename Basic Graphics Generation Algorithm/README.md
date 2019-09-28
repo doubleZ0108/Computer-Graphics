@@ -21,6 +21,10 @@ def drawLine_Basic(grid, start, end):
     drawPixel(xi, int(yi+0.5), 1, grid)     # y坐标要进行近似
 ```
 
+<img src="ScreenShots/Line/Basic1.png" alt="Basic1" style="zoom:50%;" />
+
+<img src="ScreenShots/Line/Basic2.png" alt="Basic2" style="zoom:50%;" />
+
 ------
 
 ### 数值微分算法(DDA)
@@ -54,10 +58,10 @@ def drawLine_DDA(grid, start, end):
 
 #### 如果不对k进行分类讨论
 
-![non-classify](ScreenShots/non-classify.png)
+<img src="ScreenShots/Line/non-classify.png" alt="non-classify" style="zoom:72%;" />
 
 <center>不对k进行分类讨论</center>
-![classify](ScreenShots/classify.png)
+<img src="ScreenShots/Line/classify.png" alt="classify" style="zoom:72%;" />
 
 <center>对k进行分类讨论</center>
 ------
@@ -78,7 +82,7 @@ def drawLine_DDA(grid, start, end):
 
   - else， 选p1
 
-    <img src="ScreenShots/MidPoint_principle.jpeg" alt="MidPoint_principle" style="zoom:50%;" />
+    <img src="ScreenShots/Line/MidPoint_principle.jpeg" alt="MidPoint_principle" style="zoom:50%;" />
 
 ```python
 '''中点画线法'''
@@ -124,4 +128,6 @@ def drawLine_MidPoint_with_DDA(grid, start, end):
     else:
       d += d1
 ```
+
+------
 
