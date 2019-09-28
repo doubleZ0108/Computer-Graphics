@@ -8,7 +8,7 @@
 
 ### 基础算法
 
-计算斜率和截距，通过`y = kx + b`的直线表达式计算每一个x对应的y值
+计算斜率和截距，通过`y = kx + b`的直线表达式计算每一个`x`对应的`y`值
 
 ```python
 '''基础算法'''
@@ -29,12 +29,12 @@ def drawLine_Basic(grid, start, end):
 
 ### 数值微分算法(DDA)
 
-- 采用“增量”的思想
+- 采用**“增量”**的思想
 
-  - 当`|k|<=1`时，x每增加1，y增加k
-  - 当`|k|>1`时，y每增加1，x增加1/k
+  - 当`|k|<=1`时，`x`每增加`1`，`y`增加`k`
+  - 当`|k|>1`时，`y`每增加`1`，`x`增加`1/k`
 
-- 证明: (这里只考虑`|k|<=1`当情况)
+- **证明:** *(这里只考虑`|k|<=1`当情况)*
 
   由$x_{i+1} = x_{i} + 1$
 
@@ -72,19 +72,19 @@ def drawLine_DDA(grid, start, end):
 
 ### 中点画线法
 
-- 设直线方程为：ax + by + c =0
+- 设**直线方程**为：`ax + by + c =0`
 
-  - a = y0 - y1
-  - b = x1 - x0
-  - c = x0y1 - x1y0
+  - `a = y0 - y1`
+  - `b = x1 - x0`
+  - `c = x0y1 - x1y0`
 
-- 考核点：(xp+1, yp+0.5)
+- **考核点：`**(xp+1, yp+0.5)`
 
-- 判别式：$\Delta$ = F(xp+1, yp+0.5) = a*(xp+1) + b*(yp+0.5) + c
+- **判别式：**$\Delta = F(x_p+1, y_p+0.5) = a*(x_p+1) + b*(y_p+0.5) + c$
 
-  - 如果$\Delta$<0 => Q点在M下方 => 选p2
+  - 如果$\Delta<0$ => Q点在M下方 => 选p2 `(x+1, y+1)`
 
-  - else， 选p1
+  - else， 选p1 `(x+1, y)`
 
     <img src="ScreenShots/Line/MidPoint_principle.jpeg" alt="MidPoint_principle" style="zoom:50%;" />
 
@@ -111,10 +111,10 @@ def drwaLine_MidPoint(grid, start, end):
 
 #### 在中点画线法中添加增量的思想
 
-- 若取p1，增量为a
-- 若取p2，增量为a+b
-- 初值：d0 = a + 0.5b
-- 由于只用d的符号来判断，可以用2d代替d，摆脱浮点数
+- 若取`p1`，增量为`a`
+- 若取`p2`，增量为`a+b`
+- **初值**：`d0 = a + 0.5*b`
+- *由于只用`d`的符号来判断，可以用`2d`代替`d`，摆脱浮点数*
 
 ```python
 '''中点画线法 with DDA'''
@@ -143,14 +143,14 @@ def drawLine_MidPoint_with_DDA(grid, start, end):
 
 ### Bresenham画线法
 
-- 由误差项符号决定下一个像素选正右方还是右上方
-- 判别式：$\varepsilon = y_{i+1} - y_{i,r} - 0.5$
-  - $\varepsilon > 0$, 取右上
-  - else，取正右
-- 引入增量思想：
-  - $\varepsilon > 0$，增量为 k-1
-  - else，增量为 k
-  - 初始值：-0.5
+- 由**误差项符号**决定下一个像素选正右方还是右上方
+- **判别式：**$\varepsilon = y_{i+1} - y_{i,r} - 0.5$
+  - $\varepsilon > 0$, 取右上 `(x+1, y+1)`
+  - else，取正右 `(x+1, y)`
+- 引入**增量思想：**
+  - $\varepsilon > 0$，增量为` k-1`
+  - else，增量为 `k`
+  - **初始值：**`-0.5`
 
 ```python
 '''Bresenham画线法(k<=1)'''
@@ -177,11 +177,11 @@ def drawLine_Bresenham(grid, start, end):
 #### 去点浮
 
 - 用$\varepsilon' = 2 * \varepsilon * dx$代替$\varepsilon$
-- 去掉k的计算
-- 增量：
-  - $\varepsilon > 0$，增量为 2(dy - dx)
-  - else，增量为 2dy
-  - 初始值：-dx
+- 去掉`k`的计算
+- 引入**增量思想：**
+  - $\varepsilon > 0$，增量为 `2(dy - dx)`
+  - else，增量为 `2dy`
+  - **初始值**：`-dx`
 
 ```python
 '''Bresenham画线法(去点浮)(k<=1)'''
@@ -204,3 +204,37 @@ def drawLine_Bresenham_nonreal(grid, start, end):
 <img src="ScreenShots/Line/Bresenham_nonreal2.png" alt="Bresenham_nonreal2" style="zoom:50%;" />
 
 <img src="ScreenShots/Line/Bresenham_nonreal1.png" alt="Bresenham_nonreal1" style="zoom:50%;" />
+
+------
+
+## 圆弧
+
+### 暴力算法
+
+- $y^2 = \sqrt{R^2 - x^2}$
+
+------
+
+### 中点画圆法
+
+- 只需画`1/8`圆（第一象限 `y>x` 部分）
+- **判别式：**$F(x,y) = x^2 + y^2 - R^2$
+  - `F>0`，取正右方 `(x+1, y)`
+  - else，取右下方` (x+1, y-1)`
+- **增量思想：**
+  - `d<0`, 增量为 `2*x + 3`
+  - else, 增量为 `2*(x-y) + 5`
+  - **初始值：**`1.25 - R`
+- **去点浮：**用`e = d - 0.25`代替 `d`
+  - **初始值：**`e = 1-R`
+  - **循环条件：**`d < 0` <=> `e < 0.25` <= `e`始终为整数 => `e < 0`
+
+
+
+#### 对增量本身再次使用增量思想
+
+- `x`递增1，`d`递增$\Delta x = 2$
+- `y`递减1，`d`递增$\Delta\ y = 2$
+- **初始值：**
+  - $\Delta x = 3$
+  - $\Delta\ y = -2r + 2$
