@@ -60,30 +60,33 @@ def drawLine_MidPoint_with_DDA(grid, start, end):
     a, b = start.y-end.y, end.x-start.x
 
     d = a + (b<<2)      # 用2d代替d， 摆脱小数
-    d1_1, d2_1 = a<<2, (a+b)<<2
-    d1_2, d2_2 = b<<2, (a+b)<<2
+
 
     xp, yp = start.x, start.y
     if abs(end.y - start.y) <= abs(end.x - start.x):
+
+        d1, d2 = a << 2, (a + b) << 2
+
         for xp in range(start.x, end.x):
             drawPixel(xp, yp, 1, grid)
 
             if d < 0:
                 yp += 1
-                d += d2_1
+                d += d2
             else:
-                d += d1_1
+                d += d1
     else:
+
+        d1, d2 = b << 2, (a + b) << 2
+
         for yp in range(start.y, end.y):
             drawPixel(xp, yp, 1, grid)
-            print(xp,yp,d)
 
             if d >   0:
                 xp += 1
-                d += d2_2
+                d += d2
             else:
-                d += d1_2
-
+                d += d1
 
 '''Bresenham画线法'''
 def drawLine_Bresenham(grid, start, end):
@@ -93,7 +96,7 @@ def drawLine_Bresenham(grid, start, end):
 
     if abs(k) <= 1:
         for x in range(start.x, end.x):
-            drawPixel(x , y, 1, grid)
+            drawPixel(x, y, 1, grid)
 
             if e > 0:
                 e += k - 1
@@ -112,6 +115,39 @@ def drawLine_Bresenham(grid, start, end):
                 e += 1/k
                 # x += 0
 
+'''Bresenham画线法(去点浮)'''
+def drawLine_Bresenham_nonreal(grid, start, end):
+    dx, dy = (end.x - start.x), (end.y - start.y)
+    k = dy/dx
+    x, y = start.x, start.y
+
+    if abs(k) <= 1:
+
+        e = -dx
+
+        for x in range(start.x, end.x):
+            drawPixel(x, y, 1, grid)
+
+            if e > 0:
+                e += (dy - dx) << 2
+                y += 1
+            else:
+                e += (dy) << 2
+                # y += 0
+    else:
+
+        e = -dy
+
+        for y in range(start.y, end.y):
+            drawPixel(x, y, 1, grid)
+
+            if e > 0:
+                e += (dx - dy) << 2
+                x += 1
+            else:
+                e += (dx) << 2
+                # x += 0
+
 
 
 def main():
@@ -122,18 +158,11 @@ def main():
     # drawLine_Basic(grid, start, end)
     # drawLine_DDA(grid, start, end)
     # drwaLine_MidPoint(grid, start, end)
-    drawLine_MidPoint_with_DDA(grid, start, end)
+    # drawLine_MidPoint_with_DDA(grid, start, end)
     # drawLine_Bresenham(grid, start, end)
+    drawLine_Bresenham_nonreal(grid, start, end)
 
     grid.show()
-
-    grid2 = Grid([100, 100])
-    start, end = Point(0, 1), Point(70, 50)
-
-    drawLine_MidPoint_with_DDA(grid2, start, end)
-    # drawLine_Bresenham(grid2, start, end)
-
-    grid2.show()
 
 
 if __name__=='__main__':
