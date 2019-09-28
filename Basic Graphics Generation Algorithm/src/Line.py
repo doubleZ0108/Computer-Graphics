@@ -47,8 +47,7 @@ def drwaLine_MidPoint(grid, start, end):
         for yp in range(start.y, end.y):
             drawPixel(xp, yp, 1, grid)
 
-            delta = a*(xp+0.5) + b*(yp+1) + c
-            print(xp, yp, delta)
+            delta = a*(xp+0.5) + b*(yp+1) + c   # 考核点(xp+0.5, yp+1)
 
             if delta > 0:
                 xp += 1
@@ -61,17 +60,30 @@ def drawLine_MidPoint_with_DDA(grid, start, end):
     a, b = start.y-end.y, end.x-start.x
 
     d = a + (b<<2)      # 用2d代替d， 摆脱小数
-    d1, d2 = a<<2, (a+b)<<2
+    d1_1, d2_1 = a<<2, (a+b)<<2
+    d1_2, d2_2 = b<<2, (a+b)<<2
 
     xp, yp = start.x, start.y
-    for xp in range(start.x, end.x):
-        drawPixel(xp, yp, 1, grid)
+    if abs(end.y - start.y) <= abs(end.x - start.x):
+        for xp in range(start.x, end.x):
+            drawPixel(xp, yp, 1, grid)
 
-        if d<0:
-            yp += 1
-            d += d2
-        else:
-            d += d1
+            if d < 0:
+                yp += 1
+                d += d2_1
+            else:
+                d += d1_1
+    else:
+        for yp in range(start.y, end.y):
+            drawPixel(xp, yp, 1, grid)
+            print(xp,yp,d)
+
+            if d >   0:
+                xp += 1
+                d += d2_2
+            else:
+                d += d1_2
+
 
 '''Bresenham画线法'''
 def drawLine_Bresenham(grid, start, end):
@@ -109,8 +121,8 @@ def main():
 
     # drawLine_Basic(grid, start, end)
     # drawLine_DDA(grid, start, end)
-    drwaLine_MidPoint(grid, start, end)
-    # drawLine_MidPoint_with_DDA(grid, start, end)
+    # drwaLine_MidPoint(grid, start, end)
+    drawLine_MidPoint_with_DDA(grid, start, end)
     # drawLine_Bresenham(grid, start, end)
 
     grid.show()
@@ -118,8 +130,7 @@ def main():
     grid2 = Grid([100, 100])
     start, end = Point(0, 1), Point(70, 50)
 
-    drwaLine_MidPoint(grid2, start, end)
-    # drawLine_MidPoint_with_DDA(grid2, start, end)
+    drawLine_MidPoint_with_DDA(grid2, start, end)
     # drawLine_Bresenham(grid2, start, end)
 
     grid2.show()
