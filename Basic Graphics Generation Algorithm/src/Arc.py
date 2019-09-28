@@ -1,7 +1,7 @@
 from Point import Point
 from Grid import Grid
 from math import sqrt
-from DrawPixel import drawPixel, drawPixel_symmetry
+from DrawPixel import drawPixel, drawPixel_symmetry8, drawPixel_symmetry4
 
 '''暴力方法'''
 def drawArc_Basic(grid, R):
@@ -19,7 +19,7 @@ def drawArc_MidPoint_with_DDA(grid, R):
 
     x, y = 0, R
     while x < y:
-        drawPixel_symmetry(x, y, 1, grid)
+        drawPixel_symmetry8(x, y, 1, grid)
 
         if d < 0:
             x += 1
@@ -37,7 +37,7 @@ def drawArc_MidPoint_with_DDA_nonreal(grid, R):
 
     x, y = 0, R
     while x < y:
-        drawPixel_symmetry(x, y, 1, grid)
+        drawPixel_symmetry8(x, y, 1, grid)
 
         if d < 0:
             x += 1
@@ -51,6 +51,40 @@ def drawArc_MidPoint_with_DDA_nonreal(grid, R):
             deltay += 2
 
 
+'''Bresenham画圆法'''
+def drawArc_Bresenham(grid, R):
+    delta = (1 - R) << 1
+
+    x, y = 0, R
+    while y >= 0:
+        drawPixel_symmetry4(x, y, 1, grid)
+
+        if delta < 0:
+            delta1 = ((delta + y) << 1) - 1
+            if delta1 <= 0:
+                direction = 1
+            else:
+                direction = 2
+        elif delta > 0:
+            delta2 = ((delta - x) << 1) - 1
+            if delta2 <= 0:
+                direction = 2
+            else:
+                direction = 3
+        else:
+            direction = 2
+
+
+        if direction == 1:
+            x += 1
+            delta += (x << 1) + 1
+        elif direction == 2:
+            x += 1
+            y -= 1
+            delta += ((x - y) << 1) + 2
+        else:
+            y -= 1
+            delta += 1 - (y << 1)
 
 
 def main():
@@ -59,7 +93,8 @@ def main():
 
     # drawArc_Basic(grid, R)
     # drawArc_MidPoint_with_DDA(grid, R)
-    drawArc_MidPoint_with_DDA_nonreal(grid, R)
+    # drawArc_MidPoint_with_DDA_nonreal(grid, R)
+    drawArc_Bresenham(grid, R)
 
     grid.show()
 
