@@ -395,3 +395,38 @@ def drawArc_PositiveNegative(grid, R):
 ```
 
 <img src="ScreenShots/Arc/PositiveNegative.png" alt="PositiveNegative" style="zoom:50%;" />
+
+------
+
+### 圆内接正多边形逼近法
+
+- $lim_{n->\infin}(n边正内接多边形) = 圆$
+
+  - **工程上，$n -> 2\pi R$就可以了**，两个点的距离达到1pixel之后再小也没用了
+
+- 圆的**参数方程:** 
+
+  - $x_i = Rcos\theta_i$
+  - $y_i = Rsin\theta_i$
+
+- 引入**增量思想：**
+  $$
+  (\begin{matrix}x_{i+1} \\ y_{i+1} \end{matrix}) = (\begin{matrix}cos\alpha & -sin\alpha \\ sin\alpha & cos\alpha \end{matrix})(\begin{matrix}x_{i} \\ y_{i} \end{matrix}) = (\begin{matrix}cos\alpha x_i - sin\alpha y_i \\ sin\alpha x_i + cos\alpha y_i \end{matrix})
+  $$
+  
+
+```python
+'''圆内接正多边形逼近法'''
+def drawArc_InscribedRegularPolygonApproximate(grid, R):
+    Alpha = 1/R
+    cosAlpha, sinAlpha = cos(Alpha), sin(Alpha)
+
+    x, y = R, 0
+    while x >= y:
+        drawPixel_symmetry8(int(x+0.5), int(y+0.5), 1, grid)
+
+        x = cosAlpha * x - sinAlpha * y
+        y = sinAlpha * x + cosAlpha * y
+```
+
+<img src="ScreenShots/Arc/InscribedRegularPolygenApproximation.png" alt="InscribedRegularPolygenApproximation" style="zoom:50%;" />

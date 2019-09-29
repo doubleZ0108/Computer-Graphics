@@ -1,6 +1,5 @@
-from Point import Point
 from Grid import Grid
-from math import sqrt
+from math import sqrt, cos, sin
 from DrawPixel import drawPixel, drawPixel_symmetry8, drawPixel_symmetry4
 
 '''暴力方法'''
@@ -103,6 +102,19 @@ def drawArc_PositiveNegative(grid, R):
             y -= 1
 
 
+'''圆内接正多边形逼近法'''
+def drawArc_InscribedRegularPolygonApproximate(grid, R):
+    Alpha = 1/R
+    cosAlpha, sinAlpha = cos(Alpha), sin(Alpha)
+
+    x, y = R, 0
+    while x >= y:
+        drawPixel_symmetry8(int(x+0.5), int(y+0.5), 1, grid)
+
+        x = cosAlpha * x - sinAlpha * y
+        y = sinAlpha * x + cosAlpha * y
+
+
 def main():
     grid = Grid([100, 100])
     R = 40
@@ -111,7 +123,8 @@ def main():
     # drawArc_MidPoint_with_DDA(grid, R)
     # drawArc_MidPoint_with_DDA_nonreal(grid, R)
     # drawArc_Bresenham(grid, R)
-    drawArc_PositiveNegative(grid, R)
+    # drawArc_PositiveNegative(grid, R)
+    drawArc_InscribedRegularPolygonApproximate(grid, R)
 
     grid.show()
 
