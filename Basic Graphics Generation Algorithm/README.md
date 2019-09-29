@@ -363,3 +363,35 @@ def drawArc_Bresenham(grid, R):
 ```
 
 <img src="ScreenShots/Arc/Bresenham.png" alt="Bresenham" style="zoom:50%;" />
+
+------
+
+### 正负法
+
+- 圆方程：$F(x,y) = x^2 + y^2 - R^2$
+- 设$P(x_i, y_i)$
+  - `P`在圆内 -> $D(x_i,y_i) <= 0$ -> 向右
+  - `P`在圆外 -> $D(x_i,y_i) > 0$ -> 向下
+- 引入**增量思想：**
+  - 当`F<=0`，增量为`2x + 1`
+  - else，增量为`-2y + 1`
+  - **初始值：**`0`
+
+```python
+'''正负法'''
+def drawArc_PositiveNegative(grid, R):
+    F = 0
+
+    x, y = 0, R
+    while x <= y:
+        drawPixel_symmetry8(x, y, 1, grid)
+        print(F)
+        if F <= 0:
+            F += (x << 1) + 1
+            x += 1
+        else:
+            F += 1 - (y << 1)
+            y -= 1
+```
+
+<img src="ScreenShots/Arc/PositiveNegative.png" alt="PositiveNegative" style="zoom:50%;" />

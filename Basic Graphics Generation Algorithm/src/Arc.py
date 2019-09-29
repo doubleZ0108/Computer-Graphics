@@ -18,7 +18,7 @@ def drawArc_MidPoint_with_DDA(grid, R):
     d = 1 - R
 
     x, y = 0, R
-    while x < y:
+    while x <= y:
         drawPixel_symmetry8(x, y, 1, grid)
 
         if d < 0:
@@ -36,7 +36,7 @@ def drawArc_MidPoint_with_DDA_nonreal(grid, R):
     deltax, deltay = 3, 2 - (R << 1)
 
     x, y = 0, R
-    while x < y:
+    while x <= y:
         drawPixel_symmetry8(x, y, 1, grid)
 
         if d < 0:
@@ -87,6 +87,22 @@ def drawArc_Bresenham(grid, R):
             delta += 1 - (y << 1)
 
 
+'''正负法'''
+def drawArc_PositiveNegative(grid, R):
+    F = 0
+
+    x, y = 0, R
+    while x <= y:
+        drawPixel_symmetry8(x, y, 1, grid)
+        print(F)
+        if F <= 0:
+            F += (x << 1) + 1
+            x += 1
+        else:
+            F += 1 - (y << 1)
+            y -= 1
+
+
 def main():
     grid = Grid([100, 100])
     R = 40
@@ -94,7 +110,8 @@ def main():
     # drawArc_Basic(grid, R)
     # drawArc_MidPoint_with_DDA(grid, R)
     # drawArc_MidPoint_with_DDA_nonreal(grid, R)
-    drawArc_Bresenham(grid, R)
+    # drawArc_Bresenham(grid, R)
+    drawArc_PositiveNegative(grid, R)
 
     grid.show()
 
