@@ -1,6 +1,6 @@
 from Point import Point
 from Grid import Grid
-from DrawPixel import drawPixel_VertalLine, drawPixel_HorizontalLine, drawPixel_Square
+from DrawPixel import drawPixel_VerticalLine, drawPixel_HorizontalLine, drawPixel_Square
 
 '''线有线宽 —— 线刷子算法'''
 def drawLine_with_width_LineBrush(grid, start, end, width):
@@ -27,7 +27,7 @@ def drawLine_with_width_LineBrush(grid, start, end, width):
 
         for y in range(start.y, end.y):
 
-            drawPixel_VertalLine(x, y, 1, grid, width, "line")
+            drawPixel_VerticalLine(x, y, 1, grid, width, "line")
 
             if e > 0:
                 e += (dx - dy) << 1
