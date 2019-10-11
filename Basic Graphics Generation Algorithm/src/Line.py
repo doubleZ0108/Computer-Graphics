@@ -155,6 +155,7 @@ def drawLine_Bresenham_nonreal(grid, start, end):
 def main():
     grid = Grid([100, 100])
     start, end = Point(0, 1), Point(50, 70)
+    start, end = Point(50, 70), Point(80, 20)
     # start, end = Point(0, 1), Point(70, 50)
 
     # drawLine_Basic(grid, start, end)
