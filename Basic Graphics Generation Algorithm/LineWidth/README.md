@@ -43,9 +43,7 @@ def drawPixel_HorizontalLine(x, y, color, grid, width):
 
 <img src="ScreenShots/LineWidth_LineBrush3.png" alt="LineWidth3" style="zoom:50%;" />
 
-<img src="ScreenShots/LineWidth_LineBrush4.png" alt="LineWidth4" style="zoom:50%;" />![LineWidth_SquareBrush1](ScreenShots/LineWidth_SquareBrush1.png)
-
-![LineWidth_SquareBrush1](ScreenShots/LineWidth_SquareBrush1.png)
+<img src="ScreenShots/LineWidth_LineBrush4.png" alt="LineWidth4" style="zoom:50%;" />
 
 #### 算法评价
 
