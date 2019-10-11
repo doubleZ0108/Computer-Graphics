@@ -17,6 +17,14 @@ class Grid(object):
 
         self.adjust_axis()
 
+    @property
+    def height(self):
+        return self._height
+
+    @property
+    def width(self):
+        return self._width
+
     def adjust_axis(self):
         '''调整坐标轴的方向：向右为x轴正方向，向上为y轴正方向'''
         axis = plt.gca()
