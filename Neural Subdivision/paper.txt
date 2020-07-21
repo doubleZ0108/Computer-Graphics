@@ -1,0 +1,1 @@
+Hsueh-Ti Derek Liu, Vladimir G. Kim, Siddhartha Chaudhuri, Noam Aigerman, Alec Jacobson. “Neural Subdivision.” ACM Transactions on Graphics (SIGGRAPH), 2020. https://www.dgp.toronto.edu/~hsuehtil/
