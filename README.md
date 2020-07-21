@@ -2,13 +2,23 @@
 
 Tongji Univ. --- Computer Graphics Cources Projects
 
+# Table of Contents
 
+   * [计算机图形学 | Computer Graphics](#计算机图形学--computer-graphics)
+      * [论文研读](#论文研读)
+      * [基本图形](#基本图形)
+      * [图形学实验](#图形学实验)
+      * [OpenGL知识点](#opengl知识点)
 
 -----
 
 ## 论文研读
 
 - Neural Subdivision
+  - [paper reading](https://github.com/doubleZ0108/Computer-Graphics/blob/master/Neural%20Subdivision/paper-reading.md)
+  - [algorithm introduction presentation](https://github.com/doubleZ0108/Computer-Graphics/blob/master/Neural%20Subdivision/algorithm-introduction-presentation.pdf)
+
+<br/>
 
 ## 基本图形
 
